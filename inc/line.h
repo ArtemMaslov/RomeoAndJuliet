@@ -3,23 +3,31 @@
 
 const int MaxStringLength = 200;
 
-struct Node
+struct LineNode
 {
     char* fragment;
     char* _memory_ptr;
-    Node* next;
+    LineNode* next;
 };
 
 struct Line
 {
-    Node* node;
+    LineNode* node;
+    size_t strLen = 0;
 };
 
+char* GetLine(FILE* stream, Line* line);
 
 bool IsLineEmpty(const Line* line);
 
-void WriteLineToFile(const Line* line, FILE* stream);
+void WriteLineToFile(Line* line, FILE* stream);
 
-void FreeMemory(Line* line);
+void FreeLineMemory(Line* line);
+
+bool CompressLine(Line* line);
+
+bool CopyLine(Line* dest, Line* src);
+
+int CompareLines(const Line* line1, const Line* line2);
 
 #endif

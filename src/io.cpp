@@ -43,43 +43,6 @@ char* GetString(char* buffer, const int length, FILE* stream)
     return result;
 }
 
-char* GetLine(FILE* stream, Line* line)
-{
-    assert(stream);
-    assert(line);
-    
-    ferror(stream);
-    
-    char* result = nullptr;
-    char* index  = nullptr;
-
-    line->node = (Node*)calloc(1, sizeof(Node));
-    line->node->next = nullptr;
-
-    Node* currentNode = line->node;
-
-    do
-    {
-        currentNode->fragment = (char*)calloc(MaxStringLength, sizeof(char));
-        currentNode->_memory_ptr = currentNode->fragment;
-
-        result = fgets(currentNode->fragment, MaxStringLength, stream);
-
-        if (result)
-        {
-            index = strchr(currentNode->fragment, '\n');
-            if (index == nullptr)
-            {
-                currentNode->next = (Node*)calloc(1, sizeof(Node));
-                currentNode = currentNode->next;
-            }
-        }
-    }
-    while (index == nullptr && result);
-
-    return result;
-}
-
 void SetColor(const int text, const int background)
 {
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
