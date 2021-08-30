@@ -1,65 +1,64 @@
-п»ї#include <stdio.h>
-#include <string.h>
+#include <stdio.h>
+#include <Windows.h>
 #include <assert.h>
-#include <Windows.h>
-#include <cmath>
 
-#include "..\inc\io.h"
-#include "..\inc\line.h"
-#include <Windows.h>
-
-char* GetString(char* buffer, const int length, FILE* stream)
-{
-    assert(buffer);
-    assert(stream);
-
-    ferror(stream);
-
-    char* result = nullptr;
-    char* index  = nullptr;
-
-    result = fgets(buffer, length, stream);
-
-    if (result)
-    {
-        if (strcmp(buffer, "\n") == 0)//Empty string, program must be closed
-            return nullptr;
-
-        index = strchr(buffer, '\n');
-
-        if (index)
-            *index = '\0';
-        else
-        {
-            SetColor(RED, BLACK);
-            puts("\nEntered string is too big, part of it will be ignored. Correctly readed:");
-            printf("\"%s\"\n\n", buffer);
-            SetColor(WHITE, BLACK);
-
-            while (getchar() != '\n')
-                continue;
-        }
-    }
-    return result;
-}
-
-void SetColor(const int text, const int background)
-{
-    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hStdOut, ((background & 0xf) << 4) | (text & 0xf));
-}
-
-void PutsColorText(int textColor, const char* text)
-{
-    assert(text);
-
-    SetColor(textColor, BLACK);
-    puts(text);
-    SetColor(WHITE, BLACK);
-}
+#include "..\inc\string.h"
 
 void SetRussianText()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
+}
+
+bool ReadFile(char** buffer, FILE* file)
+{
+    assert(file);
+
+    ferror(file);
+
+    fseek(file , 0 , SEEK_END);
+    long fileSize = ftell(file);
+    rewind(file);
+
+    *buffer = (char*)calloc(fileSize, sizeof(char));
+
+    if (*buffer == nullptr)
+    {
+        puts("Ошибка выделения памяти");
+        return false;
+    }
+
+    size_t readed = fread(*buffer, sizeof(char), fileSize, file);
+
+    /*if (readed != fileSize)
+    {
+        puts("Ошибка чтения данных");
+        return false;
+    }*/
+
+    return true;
+}
+
+void WriteStringsToFile(const String* strings, const size_t stringsCount, FILE* file)
+{
+    assert(strings);
+    assert(file);
+    
+    ferror(file);
+
+    for (int st = 0; st < stringsCount; st++)
+    {
+        size_t count = strings[st].end - strings[st].start + 1;
+        if (strings[st].start <= strings[st].end)
+        {
+            size_t wroteCount = fwrite(strings[st].start, sizeof(char), count, file);
+            fputc('\n', file);
+
+            if (wroteCount != count)
+            {
+                puts("Ошибка записи в файл");
+                return;
+            }
+        }
+    }
 }
