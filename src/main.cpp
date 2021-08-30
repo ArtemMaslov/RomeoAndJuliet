@@ -4,11 +4,13 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+
 #include "..\inc\io.h"
 #include "..\inc\formate.h"
 #include "..\inc\parse.h"
 #include "..\inc\sort.h"
 #include "..\inc\string.h"
+
 
 int main(int argc, char* argv[])
 {

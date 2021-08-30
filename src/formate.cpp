@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <Windows.h>
 #include <assert.h>
 
@@ -6,7 +6,6 @@
 
 
 static void FormateStringEnding(String* string);
-
 
 static void FormateStringBeginning(String* string);
 

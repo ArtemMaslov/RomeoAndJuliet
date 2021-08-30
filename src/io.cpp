@@ -1,8 +1,9 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <Windows.h>
 #include <assert.h>
 
 #include "..\inc\string.h"
+
 
 void SetRussianText()
 {
@@ -24,7 +25,7 @@ bool ReadFile(char** buffer, FILE* file)
 
     if (*buffer == nullptr)
     {
-        puts("Ошибка выделения памяти");
+        puts("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё");
         return false;
     }
 
@@ -32,7 +33,7 @@ bool ReadFile(char** buffer, FILE* file)
 
     /*if (readed != fileSize)
     {
-        puts("Ошибка чтения данных");
+        puts("РћС€РёР±РєР° С‡С‚РµРЅРёСЏ РґР°РЅРЅС‹С…");
         return false;
     }*/
 
@@ -56,7 +57,7 @@ void WriteStringsToFile(const String* strings, const size_t stringsCount, FILE* 
 
             if (wroteCount != count)
             {
-                puts("Ошибка записи в файл");
+                puts("РћС€РёР±РєР° Р·Р°РїРёСЃРё РІ С„Р°Р№Р»");
                 return;
             }
         }
