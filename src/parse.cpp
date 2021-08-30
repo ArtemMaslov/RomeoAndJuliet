@@ -1,4 +1,4 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <Windows.h>
 #include <assert.h>
 
@@ -24,7 +24,7 @@ bool ParseBuffer(char* buffer, String** strings, size_t* stringsCount)
 
     if (*strings == nullptr)
     {
-        puts("Ошибка выделения памяти");
+        puts("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё");
         return false;
     }
 
