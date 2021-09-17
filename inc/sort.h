@@ -5,9 +5,9 @@
 #include "string.h"
 
 
-void SortStrings(String* strings, const size_t stringsCount);
+void SortStrings(Text* text);
 
-int CompareStrings(const String* s1, const String* s2);
+void QSortTest();
 
 
 #endif

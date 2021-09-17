@@ -2,7 +2,10 @@
 #include <Windows.h>
 #include <assert.h>
 
+
+#include "..\inc\text.h"
 #include "..\inc\string.h"
+#include "..\inc\io.h"
 
 
 void SetRussianText()
@@ -11,48 +14,43 @@ void SetRussianText()
     SetConsoleOutputCP(1251);
 }
 
-bool ReadFile(char** buffer, FILE* file)
+bool ReadFile(Text* text, FILE* file)
 {
+    assert(text);
     assert(file);
 
-    ferror(file);
+    text->bufferSize = GetFileSize(file);
 
-    fseek(file , 0 , SEEK_END);
-    long fileSize = ftell(file);
-    rewind(file);
+    text->buffer = (char*)calloc(text->bufferSize + 1, sizeof(char));
 
-    *buffer = (char*)calloc(fileSize, sizeof(char));
-
-    if (*buffer == nullptr)
+    if (text->buffer == nullptr)
     {
         puts("Ошибка выделения памяти");
         return false;
     }
 
-    size_t readed = fread(*buffer, sizeof(char), fileSize, file);
+    size_t readed = fread(text->buffer, sizeof(char), text->bufferSize, file);
 
-    /*if (readed != fileSize)
+    if (readed != text->bufferSize)
     {
         puts("Ошибка чтения данных");
         return false;
-    }*/
+    }
 
     return true;
 }
 
-void WriteStringsToFile(const String* strings, const size_t stringsCount, FILE* file)
+void WriteStringsToFile(const Text* text, FILE* file)
 {
-    assert(strings);
+    assert(text);
     assert(file);
-    
-    ferror(file);
 
-    for (int st = 0; st < stringsCount; st++)
+    for (size_t st = 0; st < text->stringsCount; st++)
     {
-        size_t count = strings[st].end - strings[st].start + 1;
-        if (strings[st].start <= strings[st].end)
+        size_t count = text->strings[st].end - text->strings[st].start + 1;
+        if (text->strings[st].start <= text->strings[st].end)
         {
-            size_t wroteCount = fwrite(strings[st].start, sizeof(char), count, file);
+            size_t wroteCount = fwrite(text->strings[st].start, sizeof(char), count, file);
             fputc('\n', file);
 
             if (wroteCount != count)
@@ -62,4 +60,15 @@ void WriteStringsToFile(const String* strings, const size_t stringsCount, FILE* 
             }
         }
     }
+}
+
+long GetFileSize(FILE* file)
+{
+    assert(file);
+
+    fseek(file , 0, SEEK_END);
+    long fileSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    return fileSize;
 }

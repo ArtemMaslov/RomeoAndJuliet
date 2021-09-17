@@ -5,7 +5,7 @@
 #include "string.h"
 
 
-void FormateStrings(String * strings, size_t stringsCount);
+void FormateStrings(Text* text);
 
 
 #endif

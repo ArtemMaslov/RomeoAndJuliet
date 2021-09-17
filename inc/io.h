@@ -7,15 +7,13 @@
 #include "string.h"
 
 
-const char* FileName = "formate.txt";
-const char* FileOutName = "formate_out.txt";
-
-
 void SetRussianText();
 
-bool ReadFile(char** buffer, FILE* file);
+bool ReadFile(Text* text, FILE* file);
 
-void WriteStringsToFile(const String* strings, const size_t stringsCount, FILE* file);
+void WriteStringsToFile(const Text* text, FILE* file);
+
+long GetFileSize(FILE* file);
 
 
 #endif

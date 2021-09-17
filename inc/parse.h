@@ -5,7 +5,7 @@
 #include "string.h"
 
 
-bool ParseBuffer(char* buffer, String** strings, size_t* stringsCount);
+bool ParseBuffer(Text* text);
 
 
 #endif

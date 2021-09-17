@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <assert.h>
 
+
+#include "..\inc\text.h"
 #include "..\inc\formate.h"
 
 
@@ -10,14 +12,14 @@ static void FormateStringEnding(String* string);
 static void FormateStringBeginning(String* string);
 
 
-void FormateStrings(String* strings, const size_t stringsCount)
+void FormateStrings(Text* text)
 {
-    assert(strings);
+    assert(text);
 
-    for (size_t st = 0; st < stringsCount; st++)
+    for (size_t st = 0; st < text->stringsCount; st++)
     {
-        FormateStringBeginning(strings + st);
-        FormateStringEnding(strings + st);
+        FormateStringBeginning(text->strings + st);
+        FormateStringEnding(text->strings + st);
     }
 }
 
@@ -26,8 +28,9 @@ static void FormateStringBeginning(String* string)
     assert(string);
 
     char* start = string->start;
+    char* end   = string->end;
 
-    while (start <= string->end)
+    while (start <= end)
     {
         if (isspace(*start))
             string->start++;
@@ -41,9 +44,10 @@ static void FormateStringEnding(String* string)
 {
     assert(string);
 
-    char* end = string->end;
+    char* end   = string->end;
+    char* start = string->start;
 
-    while (end >= string->start)
+    while (end >= start)
     {
         if (isspace(*end))
             string->end--;

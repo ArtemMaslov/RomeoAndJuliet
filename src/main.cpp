@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 
+#include "..\inc\text.h"
 #include "..\inc\io.h"
 #include "..\inc\formate.h"
 #include "..\inc\parse.h"
@@ -12,11 +13,16 @@
 #include "..\inc\string.h"
 
 
+const char* FileName    = "formate.txt";
+const char* FileOutName = "formate_out.txt";
+
+
 int main(int argc, char* argv[])
 {
     SetRussianText();
-
-    FILE* file = nullptr;
+    QSortTest();
+    return 0;
+    FILE* file     = nullptr;
     FILE* file_out = nullptr;
 
     if(argc == 1)
@@ -33,25 +39,28 @@ int main(int argc, char* argv[])
 
         if (file_out)
         {
-            char* buffer = nullptr;
-            String* strings = nullptr;
-            size_t stringsCount = 0;
+            Text text = {};
+            text.buffer  = nullptr;
+            text.strings = nullptr;
+            text.stringsCount = text.nullStringsCount = text.bufferSize = 0;
 
-            if (ReadFile(&buffer, file) == false)
+            if (ReadFile(&text, file) == false)
                 return 1;
 
-            if (ParseBuffer(buffer, &strings, &stringsCount) == false)
+            if (ParseBuffer(&text) == false)
                 return 1;
 
-            FormateStrings(strings, stringsCount);
+            FormateStrings(&text);
 
-            SortStrings(strings, stringsCount);
+            SortStrings(&text);
 
-            WriteStringsToFile(strings, stringsCount, file_out);
+            WriteStringsToFile(&text, file_out);
         }
         else
             puts("Ошибка открытия файла назначения");
     }
     else
         puts("Ошибка открытия исходного файла");
+
+    return 0;
 }
