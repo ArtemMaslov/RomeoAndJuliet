@@ -15,5 +15,6 @@ void WriteStringsToFile(const Text* text, FILE* file);
 
 long GetFileSize(FILE* file);
 
+void WriteSeparatorLinesToFile(FILE* file);
 
 #endif

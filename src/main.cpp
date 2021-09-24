@@ -20,8 +20,6 @@ const char* FileOutName = "formate_out.txt";
 int main(int argc, char* argv[])
 {
     SetRussianText();
-    QSortTest();
-    return 0;
     FILE* file     = nullptr;
     FILE* file_out = nullptr;
 
@@ -40,21 +38,12 @@ int main(int argc, char* argv[])
         if (file_out)
         {
             Text text = {};
-            text.buffer  = nullptr;
-            text.strings = nullptr;
-            text.stringsCount = text.nullStringsCount = text.bufferSize = 0;
+            
+            ReadText(&text, file);
 
-            if (ReadFile(&text, file) == false)
-                return 1;
+            SortTextAndWriteToFile(&text, file_out);
 
-            if (ParseBuffer(&text) == false)
-                return 1;
-
-            FormateStrings(&text);
-
-            SortStrings(&text);
-
-            WriteStringsToFile(&text, file_out);
+            FreeTextStructure(&text);
         }
         else
             puts("Ошибка открытия файла назначения");

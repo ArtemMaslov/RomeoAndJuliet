@@ -31,11 +31,13 @@ bool ReadFile(Text* text, FILE* file)
 
     size_t readed = fread(text->buffer, sizeof(char), text->bufferSize, file);
 
-    if (readed != text->bufferSize)
-    {
-        puts("Ошибка чтения данных");
-        return false;
-    }
+    // На Windows строки оканчиваются символами \r\n, функция чтения размера файла их считает, но fread игнорирует \r
+    // Поэтому readed < text->bufferSize
+    //if (readed != text->bufferSize)
+    //{
+    //    puts("Ошибка чтения данных");
+    //    return false;
+    //}
 
     return true;
 }
@@ -71,4 +73,16 @@ long GetFileSize(FILE* file)
     fseek(file, 0, SEEK_SET);
 
     return fileSize;
+}
+
+void WriteSeparatorLinesToFile(FILE* file)
+{
+    assert(file);
+
+    for(int st = 0; st < 5; st++)
+        fputs("\n", file);
+    for (int st = 0; st < 10; st++)
+        fputs("//***\\\\---//***\\\\-----//***\\\\---//***\\\\\n", file);
+    for(int st = 0; st < 5; st++)
+        fputs("\n", file);
 }

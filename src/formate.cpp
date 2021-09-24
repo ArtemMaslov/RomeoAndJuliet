@@ -5,6 +5,7 @@
 
 #include "..\inc\text.h"
 #include "..\inc\formate.h"
+#include "..\inc\config.h"
 
 
 static void FormateStringEnding(String* string);
@@ -29,7 +30,7 @@ static void FormateStringBeginning(String* string)
 
     char* start = string->start;
     char* end   = string->end;
-
+    
     while (start <= end)
     {
         if (isspace(*start))
@@ -46,7 +47,7 @@ static void FormateStringEnding(String* string)
 
     char* end   = string->end;
     char* start = string->start;
-
+    
     while (end >= start)
     {
         if (isspace(*end))
